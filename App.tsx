@@ -10,7 +10,13 @@ import {
   View,
 } from 'react-native';
 import RNSvgaPlayer from '@yrjwcharm/react-native-svga-player';
-const files = ['Goddess', 'Rocket', 'heartbeat', 'rose_2.0.0'];
+const files = [
+  'Goddess',
+  'matteBitmap',
+  'heartbeat',
+  'matteRect',
+  // 'mutiMatte',
+];
 const App = () => {
   const svgaPlayerRef = useRef<RNSvgaPlayer>(null);
   return (
@@ -18,7 +24,7 @@ const App = () => {
       <StatusBar barStyle={'dark-content'} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.welcome}>Svga</Text>
-        {/* <View style={styles.container}>
+        <View style={styles.container}>
           {files.map(f => (
             <View key={f} style={styles.containerW}>
               <RNSvgaPlayer
@@ -28,7 +34,7 @@ const App = () => {
               <Text>{f}</Text>
             </View>
           ))}
-        </View> */}
+        </View>
         {/* 播放本地资源： tips:注意 ios svga动画不需要后缀名 harmony和android都需要*/}
         <RNSvgaPlayer
           ref={svgaPlayerRef}

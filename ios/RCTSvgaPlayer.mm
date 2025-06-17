@@ -1,4 +1,5 @@
 
+
 #import "RCTSvgaPlayer.h"
 
 #import <react/renderer/components/RTNSvgaPlayerSpec/ComponentDescriptors.h>
@@ -12,19 +13,19 @@
 using namespace facebook::react;
 
 @interface RCTSvgaPlayer()  <RCTSvgaPlayerViewViewProtocol,SVGAPlayerDelegate>
-@property(nonatomic, copy) NSString *currentState;
 @end
 
-@implementation RCTSvgaPlayer
-  SVGAPlayer *aPlayer;
+@implementation RCTSvgaPlayer{
+  SVGAPlayer *_aPlayer;
+}
   
   -(instancetype)init{
     if(self = [super init]) {
-      aPlayer = [[SVGAPlayer alloc] init];
-      aPlayer.delegate = self;
-      aPlayer.clipsToBounds = NO;
-      aPlayer.contentMode = UIViewContentModeScaleAspectFit;
-      [self addSubview:aPlayer];
+      _aPlayer = [[SVGAPlayer alloc] init];
+      _aPlayer.delegate = self;
+      _aPlayer.clipsToBounds = NO;
+      _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
+      [self addSubview:_aPlayer];
     }
     return self;
   }
@@ -32,40 +33,42 @@ using namespace facebook::react;
 -(void)layoutSubviews
 {
   [super layoutSubviews];
-  aPlayer.frame = self.bounds;
+  _aPlayer.frame = self.bounds;
 }
 
 -(void)updateProps:(const facebook::react::Props::Shared &)props oldProps:(const facebook::react::Props::Shared &)oldProps{
   const auto &oldViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(_props);
    const auto &newViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(props);
+  
   if (oldViewProps.source != newViewProps.source) {
      NSString *urlString = [NSString stringWithCString:newViewProps.source.c_str() encoding:NSUTF8StringEncoding];
     [self loadWithSource:urlString];
   }else if(oldViewProps.currentState!=newViewProps.currentState){
     NSString *currentState = [NSString stringWithCString:newViewProps.currentState.c_str() encoding:NSUTF8StringEncoding];
-    self.currentState = currentState;
+    
     if ([currentState isEqualToString:@"start"]) {
-               [aPlayer startAnimation];
+               [_aPlayer startAnimation];
            } else if ([currentState isEqualToString:@"pause"]) {
-               [aPlayer pauseAnimation];
+               [_aPlayer pauseAnimation];
            } else if ([currentState isEqualToString:@"stop"]) {
-               [aPlayer stopAnimation];
+               [_aPlayer stopAnimation];
            } else if ([currentState isEqualToString:@"clear"]) {
-               [aPlayer stopAnimation];
-               [aPlayer clear];
+               [_aPlayer stopAnimation];
+               [_aPlayer clear];
            }
   }else if(oldViewProps.toFrame!=newViewProps.toFrame){
+    
     float toFrame = newViewProps.toFrame;
     if (toFrame < 0) {
            return;
        }
-       [aPlayer stepToFrame:toFrame andPlay:[self.currentState isEqualToString:@"play"]];
+//       [_aPlayer stepToFrame:toFrame andPlay:[self.currentState isEqualToString:@"play"]];
   }else if(oldViewProps.toPercentage!=newViewProps.toPercentage){
     float toPercent = newViewProps.toPercentage;
     if (toPercent < 0) {
            return;
        }
-       [aPlayer stepToPercentage:toPercent  andPlay:[self.currentState isEqualToString:@"play"]];
+//       [_aPlayer stepToPercentage:toPercent  andPlay:[self.currentState isEqualToString:@"play"]];
   }
   [super updateProps:props oldProps:oldProps];
 }
@@ -76,8 +79,8 @@ using namespace facebook::react;
           [parser parseWithURL:[NSURL URLWithString:source]
                completionBlock:^(SVGAVideoEntity *_Nullable videoItem) {
                  [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                   [aPlayer setVideoItem:videoItem];
-                   [aPlayer startAnimation];
+                   [_aPlayer setVideoItem:videoItem];
+                   [_aPlayer startAnimation];
                  }];
                }
                   failureBlock:nil];
@@ -88,8 +91,8 @@ using namespace facebook::react;
                            cacheKey:source
                     completionBlock:^(SVGAVideoEntity *_Nonnull videoItem) {
                       [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                        [aPlayer setVideoItem:videoItem];
-                        [aPlayer startAnimation];
+                        [_aPlayer setVideoItem:videoItem];
+                        [_aPlayer startAnimation];
                       }];
                     }
                        failureBlock:nil];
@@ -102,16 +105,15 @@ using namespace facebook::react;
   }
   
   - (void)pauseAnimation {
-    
-    [aPlayer pauseAnimation];
+    [_aPlayer pauseAnimation];
   }
   
   - (void)startAnimation {
-    [aPlayer startAnimation];
+    [_aPlayer startAnimation];
   }
   
   - (void)stopAnimation {
-    [aPlayer stopAnimation];
+    [_aPlayer stopAnimation];
   }
 // Event emitter convenience method
 - (const SvgaPlayerViewEventEmitter &)eventEmitter
@@ -137,3 +139,5 @@ using namespace facebook::react;
   }
 
 @end
+
+
