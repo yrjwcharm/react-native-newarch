@@ -1,4 +1,5 @@
 
+
 #import "RCTSvgaPlayer.h"
 
 #import <react/renderer/components/RTNSvgaPlayerSpec/ComponentDescriptors.h>
@@ -16,6 +17,7 @@ using namespace facebook::react;
 
 @implementation RCTSvgaPlayer{
   SVGAPlayer *_aPlayer;
+  NSString *_currentState;
 }
   
   -(instancetype)init{
@@ -38,11 +40,13 @@ using namespace facebook::react;
 -(void)updateProps:(const facebook::react::Props::Shared &)props oldProps:(const facebook::react::Props::Shared &)oldProps{
   const auto &oldViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(_props);
    const auto &newViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(props);
+  
   if (oldViewProps.source != newViewProps.source) {
      NSString *urlString = [NSString stringWithCString:newViewProps.source.c_str() encoding:NSUTF8StringEncoding];
     [self loadWithSource:urlString];
   }else if(oldViewProps.currentState!=newViewProps.currentState){
     NSString *currentState = [NSString stringWithCString:newViewProps.currentState.c_str() encoding:NSUTF8StringEncoding];
+    _currentState = currentState;
     
     if ([currentState isEqualToString:@"start"]) {
                [_aPlayer startAnimation];
@@ -60,13 +64,13 @@ using namespace facebook::react;
     if (toFrame < 0) {
            return;
        }
-//       [_aPlayer stepToFrame:toFrame andPlay:[self.currentState isEqualToString:@"play"]];
+       [_aPlayer stepToFrame:toFrame andPlay:[_currentState isEqualToString:@"play"]];
   }else if(oldViewProps.toPercentage!=newViewProps.toPercentage){
     float toPercent = newViewProps.toPercentage;
     if (toPercent < 0) {
            return;
        }
-//       [_aPlayer stepToPercentage:toPercent  andPlay:[self.currentState isEqualToString:@"play"]];
+       [_aPlayer stepToPercentage:toPercent  andPlay:[_currentState isEqualToString:@"play"]];
   }
   [super updateProps:props oldProps:oldProps];
 }
@@ -135,7 +139,29 @@ using namespace facebook::react;
       [self stopAnimation];
     }
   }
+- (void)svgaPlayerDidFinishedAnimation:(SVGAPlayer *)player {
+    if (_aPlayer) {
+      SvgaPlayerViewEventEmitter::OnFinished result = SvgaPlayerViewEventEmitter::OnFinished{SvgaPlayerViewEventEmitter::OnFinished()};
+        self.eventEmitter.onFinished(result);
+    }
+}
+
+- (void)svgaPlayerDidAnimatedToFrame:(NSInteger)frame {
+    if (_aPlayer) {
+      SvgaPlayerViewEventEmitter::OnFrame result = SvgaPlayerViewEventEmitter::OnFrame{SvgaPlayerViewEventEmitter::OnFrame( frame )};
+        self.eventEmitter.onFrame(result);
+    }
+}
+
+- (void)svgaPlayerDidAnimatedToPercentage:(CGFloat)percentage {
+    if (_aPlayer) {
+      SvgaPlayerViewEventEmitter::OnPercentage result = SvgaPlayerViewEventEmitter::OnPercentage{SvgaPlayerViewEventEmitter::OnPercentage( percentage )};
+        self.eventEmitter.onPercentage(result);
+    
+    }
+}
 
 @end
+
 
 

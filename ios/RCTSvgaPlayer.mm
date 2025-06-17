@@ -17,6 +17,7 @@ using namespace facebook::react;
 
 @implementation RCTSvgaPlayer{
   SVGAPlayer *_aPlayer;
+  NSString *_currentState;
 }
   
   -(instancetype)init{
@@ -45,6 +46,7 @@ using namespace facebook::react;
     [self loadWithSource:urlString];
   }else if(oldViewProps.currentState!=newViewProps.currentState){
     NSString *currentState = [NSString stringWithCString:newViewProps.currentState.c_str() encoding:NSUTF8StringEncoding];
+    _currentState = currentState;
     
     if ([currentState isEqualToString:@"start"]) {
                [_aPlayer startAnimation];
@@ -62,13 +64,13 @@ using namespace facebook::react;
     if (toFrame < 0) {
            return;
        }
-//       [_aPlayer stepToFrame:toFrame andPlay:[self.currentState isEqualToString:@"play"]];
+       [_aPlayer stepToFrame:toFrame andPlay:[_currentState isEqualToString:@"play"]];
   }else if(oldViewProps.toPercentage!=newViewProps.toPercentage){
     float toPercent = newViewProps.toPercentage;
     if (toPercent < 0) {
            return;
        }
-//       [_aPlayer stepToPercentage:toPercent  andPlay:[self.currentState isEqualToString:@"play"]];
+       [_aPlayer stepToPercentage:toPercent  andPlay:[_currentState isEqualToString:@"play"]];
   }
   [super updateProps:props oldProps:oldProps];
 }
