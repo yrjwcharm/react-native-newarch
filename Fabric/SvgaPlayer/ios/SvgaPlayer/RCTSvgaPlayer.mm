@@ -25,6 +25,8 @@ using namespace facebook::react;
     if(self = [super init]) {
       _aPlayer = [[SVGAPlayer alloc] init];
       _aPlayer.delegate = self;
+      // _aPlayer.loops = 1;
+      // _aPlayer.clearsAfterStop = YES;
       _aPlayer.clipsToBounds = NO;
       _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
       [self addSubview:_aPlayer];
