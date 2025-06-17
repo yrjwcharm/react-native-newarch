@@ -26,16 +26,16 @@ export interface NativeCommands {
   startAnimation: (viewRef: React.ElementRef<NativeType>) => void;
   pauseAnimation: (viewRef: React.ElementRef<NativeType>) => void;
   stopAnimation: (viewRef: React.ElementRef<NativeType>) => void;
-  // stepToFrame: (
-  //   viewRef: React.ElementRef<NativeType>,
-  //   toFrame: Float,
-  //   andPlay: boolean,
-  // ) => void;
-  // stepToPercentage: (
-  //   viewRef: React.ElementRef<NativeType>,
-  //   toPercentage: Float,
-  //   andPlay: boolean,
-  // ) => void;
+  stepToFrame: (
+    viewRef: React.ElementRef<NativeType>,
+    toFrame: Float,
+    andPlay: boolean,
+  ) => void;
+  stepToPercentage: (
+    viewRef: React.ElementRef<NativeType>,
+    toPercentage: Float,
+    andPlay: boolean,
+  ) => void;
 }
 
 export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
@@ -44,8 +44,8 @@ export const Commands: NativeCommands = codegenNativeCommands<NativeCommands>({
     'startAnimation',
     'pauseAnimation',
     'stopAnimation',
-    // 'stepToFrame',
-    // 'stepToPercentage',
+    'stepToFrame',
+    'stepToPercentage',
   ],
 });
 

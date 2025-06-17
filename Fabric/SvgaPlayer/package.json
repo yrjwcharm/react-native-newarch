@@ -3,9 +3,6 @@
   "bugs": {
     "url": "https://github.com/yrjwcharm/react-native-svgaplayer/issues"
   },
-  "harmony": {
-    "alias": "react-native-svga-player"
-  },
   "codegenConfig": {
     "android": {
       "javaPackageName": "com.svgaplayer",
@@ -21,7 +18,7 @@
     "type": "components"
   },
   "dependencies": {},
-  "description": "这是一款加载使用ReactNative加载Svga动画的开源插件",
+  "description": "这是一款使用ReactNative加载Svga动画的新架构支持开源插件",
   "devDependencies": {
     "@types/react": "^18.2.47",
     "react": "18.2.0",
@@ -30,7 +27,6 @@
   "files": [
     "android",
     "ios",
-    "harmony",
     "specs",
     "index.tsx",
     "react-native-svga-player.podspec",
@@ -38,7 +34,6 @@
     ],
   "keywords": [
     "fabric",
-    "harmony",
     "player",
     "react-native",
     "svga",

@@ -2,7 +2,7 @@
 import SvgaPlayer from './SvgaPlayer';
 
 import React from 'react';
-import {ViewProps} from 'react-native';
+import {Platform, ViewProps} from 'react-native';
 
 interface SVGAPlayerProps extends ViewProps {
   onFinished?: () => void;
@@ -53,9 +53,15 @@ export default class RNSvgaPlayer extends React.Component<
         toFrame: -1,
       },
       () => {
+        if(Platform.OS === 'android'){
         this.setState({
           toFrame,
         });
+       }else{
+        if(this.childRef.current){
+          this.childRef.current?.stepToFrame(toFrame,true);
+        }
+       }
       },
     );
   }
@@ -66,9 +72,15 @@ export default class RNSvgaPlayer extends React.Component<
         toPercentage: -1,
       },
       () => {
-        this.setState({
-          toPercentage,
-        });
+        if(Platform.OS === 'android'){
+          this.setState({
+            toPercentage,
+          });
+         }else{
+          if(this.childRef.current){
+            this.childRef.current?.stepToFrame(toPercentage,true);
+          }
+         }
       },
     );
   }
