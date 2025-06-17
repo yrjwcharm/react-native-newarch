@@ -45,7 +45,7 @@ const App = () => {
               : 'homePage_studyPlanner_computer_welcome.svga'
           }
           onFinished={() => {
-            console.log('onFinished');
+            __DEV__ && console.log('onFinished');
           }}
           onFrame={(value: number) => {
             __DEV__ && console.log('frame:', value);
