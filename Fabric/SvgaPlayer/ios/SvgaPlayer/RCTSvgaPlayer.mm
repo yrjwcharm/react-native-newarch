@@ -43,7 +43,6 @@ using namespace facebook::react;
 -(void)updateProps:(const facebook::react::Props::Shared &)props oldProps:(const facebook::react::Props::Shared &)oldProps{
   const auto &oldViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(_props);
    const auto &newViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(props);
-  
   if (oldViewProps.source != newViewProps.source) {
      NSString *urlString = [NSString stringWithCString:newViewProps.source.c_str() encoding:NSUTF8StringEncoding];
     [self loadWithSource:urlString];
@@ -53,7 +52,9 @@ using namespace facebook::react;
     
     if ([currentState isEqualToString:@"start"]) {
                [_aPlayer startAnimation];
-           } else if ([currentState isEqualToString:@"pause"]) {
+           } 
+           
+           else if ([currentState isEqualToString:@"pause"]) {
                [_aPlayer pauseAnimation];
            } else if ([currentState isEqualToString:@"stop"]) {
                [_aPlayer stopAnimation];
@@ -62,7 +63,6 @@ using namespace facebook::react;
                [_aPlayer clear];
            }
   }else if(oldViewProps.toFrame!=newViewProps.toFrame){
-    
     float toFrame = newViewProps.toFrame;
     if (toFrame < 0) {
            return;
@@ -165,10 +165,11 @@ using namespace facebook::react;
 //    if (_aPlayer) {
 //      SvgaPlayerViewEventEmitter::OnPercentage result = SvgaPlayerViewEventEmitter::OnPercentage{SvgaPlayerViewEventEmitter::OnPercentage( percentage )};
 //        self.eventEmitter.onPercentage(result);
-//    
+//
 //    }
   std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
   ->onPercentage(SvgaPlayerViewEventEmitter::OnPercentage{.value=(float)percentage});
 }
 
 @end
+
