@@ -1,6 +1,6 @@
 import {HostComponent, ViewProps} from 'react-native';
 import {
-  DirectEventHandler,
+  BubblingEventHandler,
   Float,
   Int32,
 } from 'react-native/Libraries/Types/CodegenTypes';
@@ -16,9 +16,9 @@ export interface SvgaPlayerProps extends ViewProps {
   toPercentage: Float;
   loops?: Int32;
   clearsAfterStop?: boolean;
-  onFinished?: DirectEventHandler<{}>;
-  onFrame?: DirectEventHandler<ICallbacks>;
-  onPercentage?: DirectEventHandler<ICallbacks>;
+  onFinished?: BubblingEventHandler<{}>;
+  onFrame?: BubblingEventHandler<ICallbacks>;
+  onPercentage?: BubblingEventHandler<ICallbacks>;
 }
 type NativeType = HostComponent<SvgaPlayerProps>;
 export interface NativeCommands {

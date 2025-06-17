@@ -16,6 +16,7 @@ using namespace facebook::react;
 @end
 
 @implementation RCTSvgaPlayer{
+    
   SVGAPlayer *_aPlayer;
   NSString *_currentState;
 }
@@ -139,7 +140,32 @@ using namespace facebook::react;
       [self stopAnimation];
     }
   }
+- (void)svgaPlayerDidFinishedAnimation:(SVGAPlayer *)player {
+    if (_aPlayer) {
+      SvgaPlayerViewEventEmitter::OnFinished result = SvgaPlayerViewEventEmitter::OnFinished{SvgaPlayerViewEventEmitter::OnFinished()};
+      self.eventEmitter.onFinished((result));
+    }
+}
+
+- (void)svgaPlayerDidAnimatedToFrame:(NSInteger)frame {
+    if (_aPlayer) {
+      NSLog(@"frame获取值....%ld",frame);
+      SvgaPlayerViewEventEmitter::OnFrame result = SvgaPlayerViewEventEmitter::OnFrame{SvgaPlayerViewEventEmitter::OnFrame( frame )};
+        self.eventEmitter.onFrame(result);
+    }
+}
+
+- (void)svgaPlayerDidAnimatedToPercentage:(CGFloat)percentage {
+    if (_aPlayer) {
+      SvgaPlayerViewEventEmitter::OnPercentage result = SvgaPlayerViewEventEmitter::OnPercentage{SvgaPlayerViewEventEmitter::OnPercentage( percentage )};
+        self.eventEmitter.onPercentage(result);
+    
+    }
+}
 
 @end
+
+
+
 
 

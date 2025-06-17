@@ -16,6 +16,7 @@ using namespace facebook::react;
 @end
 
 @implementation RCTSvgaPlayer{
+    
   SVGAPlayer *_aPlayer;
   NSString *_currentState;
 }
@@ -140,28 +141,32 @@ using namespace facebook::react;
     }
   }
 - (void)svgaPlayerDidFinishedAnimation:(SVGAPlayer *)player {
-    if (_aPlayer) {
-      SvgaPlayerViewEventEmitter::OnFinished result = SvgaPlayerViewEventEmitter::OnFinished{SvgaPlayerViewEventEmitter::OnFinished()};
-        self.eventEmitter.onFinished(result);
-    }
+//    if (_aPlayer) {
+//      SvgaPlayerViewEventEmitter::OnFinished result = SvgaPlayerViewEventEmitter::OnFinished{SvgaPlayerViewEventEmitter::OnFinished()};
+//      self.eventEmitter.onFinished((result));
+//    }
+  std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
+  ->onFinished(SvgaPlayerViewEventEmitter::OnFinished{});
 }
 
 - (void)svgaPlayerDidAnimatedToFrame:(NSInteger)frame {
-    if (_aPlayer) {
-      SvgaPlayerViewEventEmitter::OnFrame result = SvgaPlayerViewEventEmitter::OnFrame{SvgaPlayerViewEventEmitter::OnFrame( frame )};
-        self.eventEmitter.onFrame(result);
-    }
+//    if (_aPlayer) {
+//      NSLog(@"frame获取值....%ld",frame);
+//      SvgaPlayerViewEventEmitter::OnFrame result = SvgaPlayerViewEventEmitter::OnFrame{SvgaPlayerViewEventEmitter::OnFrame( frame )};
+//        self.eventEmitter.onFrame(result);
+//    }
+  std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
+  ->onFrame(SvgaPlayerViewEventEmitter::OnFrame{.value=(float)frame});
 }
 
 - (void)svgaPlayerDidAnimatedToPercentage:(CGFloat)percentage {
-    if (_aPlayer) {
-      SvgaPlayerViewEventEmitter::OnPercentage result = SvgaPlayerViewEventEmitter::OnPercentage{SvgaPlayerViewEventEmitter::OnPercentage( percentage )};
-        self.eventEmitter.onPercentage(result);
-    
-    }
+//    if (_aPlayer) {
+//      SvgaPlayerViewEventEmitter::OnPercentage result = SvgaPlayerViewEventEmitter::OnPercentage{SvgaPlayerViewEventEmitter::OnPercentage( percentage )};
+//        self.eventEmitter.onPercentage(result);
+//    
+//    }
+  std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
+  ->onPercentage(SvgaPlayerViewEventEmitter::OnPercentage{.value=(float)percentage});
 }
 
 @end
-
-
-
