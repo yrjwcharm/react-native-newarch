@@ -29,6 +29,7 @@
     "ios",
     "specs",
     "index.tsx",
+    "SvgaPlayer.tsx",
     "react-native-svga-player.podspec",
     "RNSvgaPlayer.tsx"
     ],
