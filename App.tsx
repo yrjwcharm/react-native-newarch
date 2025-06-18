@@ -14,7 +14,7 @@ const files = [
   'Goddess',
   'matteBitmap',
   'heartbeat',
-  'matteRect',
+  // 'matteRect',
   // 'mutiMatte',
 ];
 const App = () => {
