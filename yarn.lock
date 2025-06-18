@@ -2047,9 +2047,8 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.3.0.tgz#d06bbb384ebcf6c505fde1c3d0ed4ddffe0aaff8"
   integrity sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==
 
-"@yrjwcharm/react-native-svga-player@file:./yrjwcharm-react-native-svga-player-1.0.1.tgz":
+"@yrjwcharm/react-native-svga-player@file:./Fabric/SvgaPlayer":
   version "1.0.0"
-  resolved "file:./yrjwcharm-react-native-svga-player-1.0.1.tgz#6bf64a5756f35e215c48ea26807b5db9070f327a"
 
 abort-controller@^3.0.0:
   version "3.0.0"
