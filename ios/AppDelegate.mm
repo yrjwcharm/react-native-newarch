@@ -18,7 +18,7 @@
 {
   
   NSMutableDictionary * dictionary = [super thirdPartyFabricComponents].mutableCopy;
-  dictionary[@"SvgaPlayerView"] = [RCTSvgaPlayer class];
+//  dictionary[@"SvgaPlayerView"] = [RCTSvgaPlayer class];
   return dictionary;
 }
 

@@ -63,13 +63,18 @@ using namespace facebook::react;
                [_aPlayer stopAnimation];
                [_aPlayer clear];
            }
-  }else if(oldViewProps.toFrame!=newViewProps.toFrame){
+  }
+  if(newViewProps.toFrame>0){
+    NSLog(@"oldViewProps: %F", oldViewProps.toFrame);
+    NSLog(@"newViewProps: %F", newViewProps.toFrame);
+
     float toFrame = newViewProps.toFrame;
     if (toFrame < 0) {
            return;
        }
        [_aPlayer stepToFrame:toFrame andPlay:[_currentState isEqualToString:@"play"]];
-  }else if(oldViewProps.toPercentage!=newViewProps.toPercentage){
+  }
+  if(newViewProps.toPercentage>0){
     float toPercent = newViewProps.toPercentage;
     if (toPercent < 0) {
            return;
