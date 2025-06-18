@@ -45,13 +45,13 @@ const App = () => {
               : 'homePage_studyPlanner_computer_welcome.svga'
           }
           onFinished={() => {
-            // __DEV__ && console.log('onFinished');
+            __DEV__ && console.log('onFinished');
           }}
           onFrame={(value: number) => {
-            // __DEV__ && console.log('frame:', value);
+            __DEV__ && console.log('frame:', value);
           }}
           onPercentage={(value: number) => {
-            // __DEV__ && console.log('percentage:', value);
+            __DEV__ && console.log('percentage:', value);
           }}
         />
         <View style={styles.flexAround}>
