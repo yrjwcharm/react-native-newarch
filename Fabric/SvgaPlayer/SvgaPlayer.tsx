@@ -4,9 +4,9 @@ import SvgaPlayerView, {
 } from './specs/SvgaPlayerNativeComponent';
 export type GeneratedSampleComponentRef = {
   load: (source: string) => void;
-  // startAnimation: () => void;
-  // pauseAnimation: () => void;
-  // stopAnimation: () => void;
+  startAnimation: () => void;
+  pauseAnimation: () => void;
+  stopAnimation: () => void;
   // stepToFrame: (toFrame: number, andPlay: boolean) => void;
   // stepToPercentage: (toPercentage: number, andPlay: boolean) => void;
 };
