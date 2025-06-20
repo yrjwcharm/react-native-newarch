@@ -9,7 +9,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import RNSvgaPlayer from '@yrjwcharm/react-native-svga-player';
+import RNSvgaPlayer from 'react-native-svga-player';
 const files = [
   'Goddess',
   'matteBitmap',
