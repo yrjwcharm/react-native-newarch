@@ -15,6 +15,7 @@ export interface SvgaPlayerProps extends ViewProps {
   currentState: string;
   toPercentage: Float;
   loops?: Int32;
+  autoplay?: boolean;
   clearsAfterStop?: boolean;
   onFinished?: BubblingEventHandler<{}>;
   onFrame?: BubblingEventHandler<ICallbacks>;

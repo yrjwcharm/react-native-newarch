@@ -15,6 +15,7 @@ interface ISvgaPlayerProps {
   style?: StyleProp<ViewStyle>;
   source: string;
   loops?: number;
+  autoplay?: boolean;
   toFrame: number;
   currentState: string;
   toPercentage: number;
@@ -103,6 +104,7 @@ export const SvgaPlayer = forwardRef<
       source={props.source}
       toFrame={props.toFrame}
       loops={props.loops}
+      autoplay={props.autoplay}
       currentState={props.currentState}
       toPercentage={props.toPercentage}
       onFinished={() => {

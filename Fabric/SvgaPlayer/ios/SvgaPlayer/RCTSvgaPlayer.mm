@@ -42,7 +42,7 @@ using namespace facebook::react;
          _props = defaultProps;
        _aPlayer = [[SVGAPlayer alloc] init];
        _aPlayer.delegate = self;
-       // _aPlayer.loops = 1;
+       _aPlayer.loops = 0;
        // _aPlayer.clearsAfterStop = YES;
        _aPlayer.clipsToBounds = NO;
        _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
