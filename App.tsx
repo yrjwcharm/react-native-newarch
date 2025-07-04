@@ -39,6 +39,7 @@ const App = () => {
         <RNSvgaPlayer
           ref={svgaPlayerRef}
           style={styles.localSvga}
+          loops={0}
           source={
             Platform.OS === 'ios'
               ? 'homePage_studyPlanner_computer_welcome'

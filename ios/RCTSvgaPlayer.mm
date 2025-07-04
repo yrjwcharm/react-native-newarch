@@ -64,7 +64,8 @@ using namespace facebook::react;
   if (oldViewProps.source != newViewProps.source) {
      NSString *urlString = [NSString stringWithCString:newViewProps.source.c_str() encoding:NSUTF8StringEncoding];
     [self loadWithSource:urlString];
-  }else if(oldViewProps.currentState!=newViewProps.currentState){
+  }
+  if(oldViewProps.currentState!=newViewProps.currentState){
     NSString *currentState = [NSString stringWithCString:newViewProps.currentState.c_str() encoding:NSUTF8StringEncoding];
     _currentState = currentState;
     
@@ -82,6 +83,10 @@ using namespace facebook::react;
                [_aPlayer clear];
            }
   }
+  if(oldViewProps.loops!=newViewProps.loops){
+    _aPlayer.loops = newViewProps.loops;
+  }
+    
   if(newViewProps.toFrame>0){
 
     float toFrame = newViewProps.toFrame;
