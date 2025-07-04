@@ -2,6 +2,7 @@
 
 #import "RCTSvgaPlayer.h"
 
+#import <React/RCTFabricComponentsPlugins.h>
 #import <react/renderer/components/RTNSvgaPlayerSpec/ComponentDescriptors.h>
 #import <react/renderer/components/RTNSvgaPlayerSpec/EventEmitters.h>
 #import <react/renderer/components/RTNSvgaPlayerSpec/Props.h>
@@ -15,24 +16,40 @@ using namespace facebook::react;
 @interface RCTSvgaPlayer()  <RCTSvgaPlayerViewViewProtocol,SVGAPlayerDelegate>
 @end
 
+
 @implementation RCTSvgaPlayer{
-    
   SVGAPlayer *_aPlayer;
   NSString *_currentState;
 }
   
-  -(instancetype)init{
-    if(self = [super init]) {
-      _aPlayer = [[SVGAPlayer alloc] init];
-      _aPlayer.delegate = self;
-      // _aPlayer.loops = 1;
-      // _aPlayer.clearsAfterStop = YES;
-      _aPlayer.clipsToBounds = NO;
-      _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
-      [self addSubview:_aPlayer];
-    }
-    return self;
-  }
+
+//-(instancetype)init{
+//   if(self = [super init]) {
+//     _aPlayer = [[SVGAPlayer alloc] init];
+//     _aPlayer.delegate = self;
+//     // _aPlayer.loops = 1;
+//     // _aPlayer.clearsAfterStop = YES;
+//     _aPlayer.clipsToBounds = NO;
+//     _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
+//     [self addSubview:_aPlayer];
+//   }
+//   return self;
+// }
+ - (instancetype)initWithFrame:(CGRect)frame
+ {
+     if (self = [super initWithFrame:frame]) {
+         static const auto defaultProps = std::make_shared<const SvgaPlayerViewProps>();
+         _props = defaultProps;
+       _aPlayer = [[SVGAPlayer alloc] init];
+       _aPlayer.delegate = self;
+       // _aPlayer.loops = 1;
+       // _aPlayer.clearsAfterStop = YES;
+       _aPlayer.clipsToBounds = NO;
+       _aPlayer.contentMode = UIViewContentModeScaleAspectFit;
+       [self addSubview:_aPlayer];
+     }
+     return self;
+ }
 
 -(void)layoutSubviews
 {
@@ -42,7 +59,8 @@ using namespace facebook::react;
 
 -(void)updateProps:(const facebook::react::Props::Shared &)props oldProps:(const facebook::react::Props::Shared &)oldProps{
   const auto &oldViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(_props);
-   const auto &newViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(props);
+    const auto &newViewProps = *std::static_pointer_cast<SvgaPlayerViewProps const>(props);
+
   if (oldViewProps.source != newViewProps.source) {
      NSString *urlString = [NSString stringWithCString:newViewProps.source.c_str() encoding:NSUTF8StringEncoding];
     [self loadWithSource:urlString];
@@ -65,8 +83,6 @@ using namespace facebook::react;
            }
   }
   if(newViewProps.toFrame>0){
-    NSLog(@"oldViewProps: %F", oldViewProps.toFrame);
-    NSLog(@"newViewProps: %F", newViewProps.toFrame);
 
     float toFrame = newViewProps.toFrame;
     if (toFrame < 0) {
@@ -154,19 +170,23 @@ using namespace facebook::react;
 //      SvgaPlayerViewEventEmitter::OnFinished result = SvgaPlayerViewEventEmitter::OnFinished{SvgaPlayerViewEventEmitter::OnFinished()};
 //      self.eventEmitter.onFinished((result));
 //    }
-if (_eventEmitter != nullptr) {
+ if (_eventEmitter != nullptr) {
   std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
   ->onFinished(SvgaPlayerViewEventEmitter::OnFinished{});
  }
 }
 
+-(void)prepareForRecycle{
+  [super prepareForRecycle];
+
+}
 - (void)svgaPlayerDidAnimatedToFrame:(NSInteger)frame {
 //    if (_aPlayer) {
 //      NSLog(@"frame获取值....%ld",frame);
 //      SvgaPlayerViewEventEmitter::OnFrame result = SvgaPlayerViewEventEmitter::OnFrame{SvgaPlayerViewEventEmitter::OnFrame( frame )};
 //        self.eventEmitter.onFrame(result);
 //    }
-if (_eventEmitter != nullptr) {
+ if (_eventEmitter != nullptr) {
   std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
   ->onFrame(SvgaPlayerViewEventEmitter::OnFrame{.value=(float)frame});
  }
@@ -178,11 +198,47 @@ if (_eventEmitter != nullptr) {
 //        self.eventEmitter.onPercentage(result);
 //
 //    }
-if (_eventEmitter != nullptr) {
+ if (_eventEmitter != nullptr) {
   std::dynamic_pointer_cast<const SvgaPlayerViewEventEmitter>(_eventEmitter)
   ->onPercentage(SvgaPlayerViewEventEmitter::OnPercentage{.value=(float)percentage});
  }
 }
+// 当视图从父视图移除时调用
+- (void)removeFromSuperview
+{
+    // 从父视图移除时清理资源
+    [self clean];
+    [super removeFromSuperview];
+}
+
+// 当视图被标记为即将移除时调用
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    // 如果新的父视图是 nil，说明视图即将被移除
+    if (newSuperview == nil) {
+        [self clean];
+    }
+    [super willMoveToSuperview:newSuperview];
+}
+- (void)clean
+{
+    if (_aPlayer) {
+        [_aPlayer stopAnimation];
+        [_aPlayer setVideoItem:nil];
+        [_aPlayer clear];
+    }
+}
+- (void)dealloc {
+    [self clean];
+    _aPlayer.delegate = nil;
+    _aPlayer = nil;
+}
 
 @end
+
+
+Class<RCTComponentViewProtocol> SvgaPlayerViewCls(void)
+{
+   return RCTSvgaPlayer.class;
+}
 

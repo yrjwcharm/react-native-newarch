@@ -5501,10 +5501,8 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
-"react-native-svga-player@npm:rn-newarch-svga-player@1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/rn-newarch-svga-player/-/rn-newarch-svga-player-1.0.9.tgz#e3f6ff481c3685404301807caabf301cba754558"
-  integrity sha512-UzWN4Kxxc8ggI5n1Jz3QQr2jEieW0EtcD2AsrhFtidjPN0yCk2L2bZ86GoNtgM7v9DxW8l5lIi34DCzmdBqQkw==
+"react-native-svga-player@file:./Fabric/SvgaPlayer":
+  version "1.0.0"
 
 react-native@0.77.0:
   version "0.77.0"

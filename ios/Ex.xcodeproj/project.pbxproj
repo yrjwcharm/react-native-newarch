@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0C80B921A6F3F58F76C31292 /* libPods-Ex.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-Ex.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		5906D7302E1819FB00E6E4B0 /* RCTSvgaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5906D72F2E1819FB00E6E4B0 /* RCTSvgaPlayer.mm */; };
+		5906D7322E181C1700E6E4B0 /* RCTSvgaPlayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5906D7312E181C1700E6E4B0 /* RCTSvgaPlayer.mm */; };
 		594617152E0110F90026359F /* homePage_studyPlanner_computer_welcome.svga in Resources */ = {isa = PBXBuildFile; fileRef = 594617142E0110F90026359F /* homePage_studyPlanner_computer_welcome.svga */; };
 		594617192E01163A0026359F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 594617182E01163A0026359F /* AppDelegate.mm */; };
 		5946171B2E0118E20026359F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5946171A2E0118E20026359F /* main.m */; };
@@ -24,7 +24,7 @@
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = Ex/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-Ex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ex.debug.xcconfig"; path = "Target Support Files/Pods-Ex/Pods-Ex.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Ex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ex.release.xcconfig"; path = "Target Support Files/Pods-Ex/Pods-Ex.release.xcconfig"; sourceTree = "<group>"; };
-		5906D72F2E1819FB00E6E4B0 /* RCTSvgaPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RCTSvgaPlayer.mm; sourceTree = "<group>"; };
+		5906D7312E181C1700E6E4B0 /* RCTSvgaPlayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RCTSvgaPlayer.mm; sourceTree = "<group>"; };
 		594617142E0110F90026359F /* homePage_studyPlanner_computer_welcome.svga */ = {isa = PBXFileReference; lastKnownFileType = file; path = homePage_studyPlanner_computer_welcome.svga; sourceTree = "<group>"; };
 		594617172E01163A0026359F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		594617182E01163A0026359F /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 		13B07FAE1A68108700A75B9A /* Ex */ = {
 			isa = PBXGroup;
 			children = (
-				5906D72F2E1819FB00E6E4B0 /* RCTSvgaPlayer.mm */,
+				5906D7312E181C1700E6E4B0 /* RCTSvgaPlayer.mm */,
 				5946171A2E0118E20026359F /* main.m */,
 				594617172E01163A0026359F /* AppDelegate.h */,
 				594617182E01163A0026359F /* AppDelegate.mm */,
@@ -268,7 +268,7 @@
 			files = (
 				594617192E01163A0026359F /* AppDelegate.mm in Sources */,
 				5946171B2E0118E20026359F /* main.m in Sources */,
-				5906D7302E1819FB00E6E4B0 /* RCTSvgaPlayer.mm in Sources */,
+				5906D7322E181C1700E6E4B0 /* RCTSvgaPlayer.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

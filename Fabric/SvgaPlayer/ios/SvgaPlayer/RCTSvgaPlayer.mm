@@ -176,6 +176,10 @@ using namespace facebook::react;
  }
 }
 
+-(void)prepareForRecycle{
+  [super prepareForRecycle];
+
+}
 - (void)svgaPlayerDidAnimatedToFrame:(NSInteger)frame {
 //    if (_aPlayer) {
 //      NSLog(@"frame获取值....%ld",frame);
@@ -199,6 +203,36 @@ using namespace facebook::react;
   ->onPercentage(SvgaPlayerViewEventEmitter::OnPercentage{.value=(float)percentage});
  }
 }
+// 当视图从父视图移除时调用
+- (void)removeFromSuperview
+{
+    // 从父视图移除时清理资源
+    [self clean];
+    [super removeFromSuperview];
+}
+
+// 当视图被标记为即将移除时调用
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    // 如果新的父视图是 nil，说明视图即将被移除
+    if (newSuperview == nil) {
+        [self clean];
+    }
+    [super willMoveToSuperview:newSuperview];
+}
+- (void)clean
+{
+    if (_aPlayer) {
+        [_aPlayer stopAnimation];
+        [_aPlayer setVideoItem:nil];
+        [_aPlayer clear];
+    }
+}
+- (void)dealloc {
+    [self clean];
+    _aPlayer.delegate = nil;
+    _aPlayer = nil;
+}
 
 @end
 
@@ -207,4 +241,3 @@ Class<RCTComponentViewProtocol> SvgaPlayerViewCls(void)
 {
    return RCTSvgaPlayer.class;
 }
-
