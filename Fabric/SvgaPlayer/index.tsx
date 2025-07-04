@@ -9,6 +9,7 @@ interface SVGAPlayerProps extends ViewProps {
   onFrame?: (value: number) => void;
   onPercentage?: (value: number) => void;
   source: string;
+  loops?: number;
 }
 interface SVGAPlayerState {
   toFrame: number;

@@ -134,6 +134,7 @@ using namespace facebook::react;
   
   - (void)pauseAnimation {
     [_aPlayer pauseAnimation];
+    
   }
   
   - (void)startAnimation {
@@ -211,10 +212,8 @@ using namespace facebook::react;
     [super removeFromSuperview];
 }
 
-// 当视图被标记为即将移除时调用
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    // 如果新的父视图是 nil，说明视图即将被移除
     if (newSuperview == nil) {
         [self clean];
     }
