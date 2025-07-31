@@ -1,10 +1,8 @@
 package com.svgaplayer
 
-import android.content.Context
 import android.util.Log
-import com.facebook.infer.annotation.Assertions
+import android.widget.ImageView
 import com.facebook.react.bridge.Arguments
-import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
@@ -12,37 +10,35 @@ import com.facebook.react.uimanager.ThemedReactContext
 import com.facebook.react.uimanager.UIManagerHelper
 import com.facebook.react.uimanager.ViewManagerDelegate
 import com.facebook.react.uimanager.annotations.ReactProp
-import android.widget.ImageView
 import com.facebook.react.viewmanagers.RNSvgaPlayerManagerDelegate
 import com.facebook.react.viewmanagers.RNSvgaPlayerManagerInterface
+import com.opensource.svgaplayer.SVGACache
 import com.opensource.svgaplayer.SVGAParser
 import com.opensource.svgaplayer.SVGAVideoEntity
-import com.opensource.svgaplayer.SVGACache
+import com.opensource.svgaplayer.utils.SVGARange
 import com.svgaplayer.events.TopErrorEvent
 import com.svgaplayer.events.TopFinishedEvent
 import com.svgaplayer.events.TopLoadedEvent
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 import java.net.URL
 
-@ReactModule(name = RNSvgaPlayerManager.NAME)
-class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManagerInterface<RNSvgaPlayer> {
+@ReactModule(name = RNSvgaPlayerManager.REACT_CLASS)
+class RNSvgaPlayerManager() : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManagerInterface<RNSvgaPlayer> {
 
   companion object {
-    const val NAME = "RNSvgaPlayer"
+    const val REACT_CLASS = "RNSvgaPlayer"
   }
-
   private val mDelegate: ViewManagerDelegate<RNSvgaPlayer> = RNSvgaPlayerManagerDelegate(this)
 
-  override fun getName(): String = NAME
+  override fun getName(): String = REACT_CLASS
 
   override fun getDelegate(): ViewManagerDelegate<RNSvgaPlayer>? = mDelegate
 
   override fun createViewInstance(c: ThemedReactContext): RNSvgaPlayer {
     return RNSvgaPlayer(c, null, 0)
   }
-
+  @ReactProp(name = "source")
   override fun setSource(view: RNSvgaPlayer, source: String?) {
     val context = view.context
     source?.let {
@@ -67,7 +63,7 @@ class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManag
           val surfaceId = UIManagerHelper.getSurfaceId(context)
           val loadedEvent = TopLoadedEvent(surfaceId, view.id, loadedData)
           val dispatcher = UIManagerHelper.getEventDispatcherForReactTag(context as ThemedReactContext, view.id)
-          dispatcher?.dispatchEvent(loadedEvent)
+           dispatcher?.dispatchEvent(loadedEvent)
 
           if(view.autoPlay){
             view.startAnimationSafely()
@@ -99,20 +95,20 @@ class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManag
       }
     }
   }
-
+  @ReactProp(name = "loops", defaultInt = 0)
   override fun setLoops(view: RNSvgaPlayer, loops: Int) {
     view.loops = loops
   }
-
+  @ReactProp(name = "clearsAfterStop", defaultBoolean = true)
   override fun setClearsAfterStop(view: RNSvgaPlayer, clearsAfterStop: Boolean) {
     view.clearsAfterDetached = clearsAfterStop
     view.clearsAfterStop = clearsAfterStop
   }
-
+  @ReactProp(name = "autoPlay", defaultBoolean = true)
   override fun setAutoPlay(view: RNSvgaPlayer, autoPlay: Boolean) {
     view.autoPlay = autoPlay
   }
-
+  @ReactProp(name = "align")
   override fun setAlign(view: RNSvgaPlayer, align: String?) {
     val scaleType = when (align) {
       "bottom" -> ImageView.ScaleType.FIT_END
@@ -130,6 +126,26 @@ class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManag
     when (commandId) {
       "startAnimation" -> startAnimation(root)
       "stopAnimation" -> stopAnimation(root)
+      "pauseAnimation" -> pauseAnimation(root)
+      "stepToFrame" -> {
+        val frame = args?.getInt(0) ?: 0
+        val andPlay = args?.getBoolean(1) ?: false
+        stepToFrame(root, frame, andPlay)
+      }
+      "stepToPercentage" -> {
+        val percentage = args?.getInt(0) ?: 0
+        val andPlay = args?.getBoolean(1) ?: false
+        stepToPercentage(root, percentage, andPlay)
+      }
+      "startAnimationWithRange" -> {
+        val location = args?.getInt(0) ?: 0
+        val length = args?.getInt(1) ?: 0
+        val reverse = args?.getBoolean(2) ?: false
+        startAnimationWithRange(root, location, length, reverse)
+      }
+      else -> {
+        Log.w(REACT_CLASS, "Unknown command: $commandId")
+      }
     }
   }
 
@@ -138,7 +154,7 @@ class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManag
   }
 
   override fun stopAnimation(view: RNSvgaPlayer) {
-    view.stopAnimation(true)
+    view.stopAnimation(view.clearsAfterStop)
   }
 
   override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
@@ -150,5 +166,27 @@ class RNSvgaPlayerManager : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManag
     export[TopLoadedEvent.EVENT_NAME] = mapOf("registrationName" to "onLoaded")
 
     return export
+  }
+
+  override fun pauseAnimation(view: RNSvgaPlayer?) {
+    view?.pauseAnimation()
+  }
+
+  override fun stepToFrame(view: RNSvgaPlayer?, frame: Int, andPlay: Boolean) {
+    view?.stepToFrame(frame, andPlay);
+  }
+
+  override fun stepToPercentage(view: RNSvgaPlayer?, percentage: Int, andPlay: Boolean) {
+    view?.stepToFrame(percentage, andPlay);
+  }
+
+  override fun startAnimationWithRange(
+    view: RNSvgaPlayer?,
+    location: Int,
+    length: Int,
+    reverse: Boolean
+  ) {
+    var  range = SVGARange(location, length)
+    view?.startAnimation(range,reverse)
   }
 }

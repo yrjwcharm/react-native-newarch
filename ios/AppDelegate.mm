@@ -14,13 +14,13 @@
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
-- (NSDictionary<NSString *,Class<RCTComponentViewProtocol>> *)thirdPartyFabricComponents
-{
-  
-  NSMutableDictionary * dictionary = [super thirdPartyFabricComponents].mutableCopy;
-  dictionary[@"RNSvgaPlayer"] = [RCTSvgaPlayer class];
-  return dictionary;
-}
+//- (NSDictionary<NSString *,Class<RCTComponentViewProtocol>> *)thirdPartyFabricComponents
+//{
+//  
+//  NSMutableDictionary * dictionary = [super thirdPartyFabricComponents].mutableCopy;
+//  dictionary[@"RNSvgaPlayer"] = [RCTSvgaPlayer class];
+//  return dictionary;
+//}
 
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

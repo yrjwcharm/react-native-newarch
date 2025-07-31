@@ -1,4 +1,4 @@
-export { default as SvgaPlayer } from './SvgaPlayer';
+export { default as RNSvgaPlayer } from './SvgaPlayer';
 export type {
   SvgaPlayerProps,
   SvgaPlayerRef,
