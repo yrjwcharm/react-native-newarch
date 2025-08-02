@@ -1,5 +1,4 @@
 #import "RCTSvgaPlayer.h"
-
 #import <react/renderer/components/RNSvgaPlayerSpec/ComponentDescriptors.h>
 #import <react/renderer/components/RNSvgaPlayerSpec/EventEmitters.h>
 #import <react/renderer/components/RNSvgaPlayerSpec/Props.h>
@@ -16,6 +15,7 @@ using namespace facebook::react;
 
 @end
 
+
 @implementation RCTSvgaPlayer {
     SVGAPlayer * _svgaPlayer;
     NSString * _currentSource;
@@ -24,6 +24,7 @@ using namespace facebook::react;
     BOOL _clearsAfterStop;
     SVGAVideoEntity * _currentVideoItem;
 }
+
 // Event emitter convenience method
 - (const RNSvgaPlayerEventEmitter &)eventEmitter
 {
@@ -34,7 +35,10 @@ using namespace facebook::react;
 {
     return concreteComponentDescriptorProvider<RNSvgaPlayerComponentDescriptor>();
 }
-
+Class<RCTComponentViewProtocol> WebViewCls(void)
+{
+  return RCTWebView.class;
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if (self = [super initWithFrame:frame]) {
@@ -135,8 +139,10 @@ using namespace facebook::react;
     [_svgaPlayer clear];
     _currentVideoItem = nil;
     
-    RNSvgaPlayerEventEmitter::OnError result = RNSvgaPlayerEventEmitter::OnError{RNSvgaPlayerEventEmitter::OnError( [errorMessage UTF8String] )};
-self.eventEmitter.onError(result);
+    if(_eventEmitter!= nullptr) {
+        RNSvgaPlayerEventEmitter::OnError result = RNSvgaPlayerEventEmitter::OnError{RNSvgaPlayerEventEmitter::OnError( [errorMessage UTF8String] )};
+        self.eventEmitter.onError(result);
+    }
 
 //    if (_eventEmitter != nullptr) {
 //        std::dynamic_pointer_cast<const facebook::react::RNSvgaPlayerEventEmitter>(_eventEmitter)
@@ -151,10 +157,12 @@ self.eventEmitter.onError(result);
 //    if (_eventEmitter != nullptr) {
 //        std::dynamic_pointer_cast<const facebook::react::RNSvgaPlayerEventEmitter>(_eventEmitter)
 //            ->onLoaded(facebook::react::RNSvgaPlayerEventEmitter::OnLoaded{});
-//        
+//
 //    }
-    RNSvgaPlayerEventEmitter::OnLoaded result = RNSvgaPlayerEventEmitter::OnLoaded{RNSvgaPlayerEventEmitter::OnLoaded( {} )};
-self.eventEmitter.onLoaded(result);
+    if(_eventEmitter != nullptr) {
+        RNSvgaPlayerEventEmitter::OnLoaded result = RNSvgaPlayerEventEmitter::OnLoaded{RNSvgaPlayerEventEmitter::OnLoaded( {} )};
+        self.eventEmitter.onLoaded(result);
+    }
 }
 
 // 辅助方法：处理文件路径
@@ -432,10 +440,14 @@ self.eventEmitter.onLoaded(result);
     if (!_svgaPlayer || _svgaPlayer.delegate != self) {
         return;
     }
-    RNSvgaPlayerEventEmitter::OnFrameChanged result = RNSvgaPlayerEventEmitter::OnFrameChanged{RNSvgaPlayerEventEmitter::OnFrameChanged( frame )};
-self.eventEmitter.onFrameChanged(result);
+    if(_eventEmitter!= nullptr) {
+        
+        RNSvgaPlayerEventEmitter::OnFrameChanged result = RNSvgaPlayerEventEmitter::OnFrameChanged{RNSvgaPlayerEventEmitter::OnFrameChanged( frame )};
+        self.eventEmitter.onFrameChanged(result);
+    }
 //    std::dynamic_pointer_cast<const RNSvgaPlayerEventEmitter>(_eventEmitter)
 //    ->onFrameChanged(RNSvgaPlayerEventEmitter::OnFrameChanged{.value=(float)frame});
+        
     
 }
 -(void) svgaPlayerDidAnimatedToPercentage:(CGFloat)percentage{
@@ -443,9 +455,11 @@ self.eventEmitter.onFrameChanged(result);
     if (!_svgaPlayer || _svgaPlayer.delegate != self) {
         return;
     }
-
-          RNSvgaPlayerEventEmitter::OnPercentageChanged result = RNSvgaPlayerEventEmitter::OnPercentageChanged{RNSvgaPlayerEventEmitter::OnPercentageChanged( percentage )};
-    self.eventEmitter.onPercentageChanged(result);
+    if(_eventEmitter != nullptr) {
+        
+        RNSvgaPlayerEventEmitter::OnPercentageChanged result = RNSvgaPlayerEventEmitter::OnPercentageChanged{RNSvgaPlayerEventEmitter::OnPercentageChanged( percentage )};
+        self.eventEmitter.onPercentageChanged(result);
+    }
     //直接事件
 //    std::dynamic_pointer_cast<const RNSvgaPlayerEventEmitter>(_eventEmitter)
 //    ->onFrameChanged(RNSvgaPlayerEventEmitter::OnFrameChanged{.value=(float)percentage});
@@ -458,9 +472,12 @@ self.eventEmitter.onFrameChanged(result);
     if (!_svgaPlayer || player != _svgaPlayer) {
         return;
     }
-    // 检查事件发送器是否还有效
-    RNSvgaPlayerEventEmitter::OnFinished result = RNSvgaPlayerEventEmitter::OnFinished{RNSvgaPlayerEventEmitter::OnFinished( true )};
-self.eventEmitter.onFinished(result);
+    if(_eventEmitter != nullptr) {
+        
+        // 检查事件发送器是否还有效
+        RNSvgaPlayerEventEmitter::OnFinished result = RNSvgaPlayerEventEmitter::OnFinished{RNSvgaPlayerEventEmitter::OnFinished( true )};
+        self.eventEmitter.onFinished(result);
+    }
 //    std::dynamic_pointer_cast<const facebook::react::RNSvgaPlayerEventEmitter>(_eventEmitter)
 //        ->onFinished(facebook::react::RNSvgaPlayerEventEmitter::OnFinished{
 //            .finished = true
@@ -549,7 +566,3 @@ self.eventEmitter.onFinished(result);
 @end
 
 
-Class<RCTComponentViewProtocol> RNSvgaPlayerCls(void)
-{
-   return RCTSvgaPlayer.class;
-}

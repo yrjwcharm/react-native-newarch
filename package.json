@@ -1,20 +1,10 @@
 {
-  "name": "Ex",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
-  },
-
   "dependencies": {
     "react": "18.3.1",
     "react-native": "0.77.0",
-    "rn-newarch-svga-player":"file:./Fabric/SvgaPlayer"
-
+    "react-native-blob-util": "^0.22.2",
+    "react-native-pdf": "^6.7.7",
+    "react-native-svga-player": "npm:rn-newarch-svga-player@1.1.16"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
@@ -38,5 +28,15 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "name": "Ex",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "start": "react-native start",
+    "test": "jest"
+  },
+  "version": "0.0.1"
 }

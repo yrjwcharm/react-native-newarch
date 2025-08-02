@@ -4,6 +4,7 @@ import android.util.Log
 import android.widget.ImageView
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.common.MapBuilder
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.uimanager.SimpleViewManager
 import com.facebook.react.uimanager.ThemedReactContext
@@ -17,11 +18,11 @@ import com.opensource.svgaplayer.SVGAParser
 import com.opensource.svgaplayer.SVGAVideoEntity
 import com.opensource.svgaplayer.utils.SVGARange
 import com.svgaplayer.events.TopErrorEvent
-import com.svgaplayer.events.TopFinishedEvent
 import com.svgaplayer.events.TopLoadedEvent
 import java.io.File
 import java.io.FileInputStream
 import java.net.URL
+
 
 @ReactModule(name = RNSvgaPlayerManager.REACT_CLASS)
 class RNSvgaPlayerManager() : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerManagerInterface<RNSvgaPlayer> {
@@ -157,15 +158,27 @@ class RNSvgaPlayerManager() : SimpleViewManager<RNSvgaPlayer>(), RNSvgaPlayerMan
     view.stopAnimation(view.clearsAfterStop)
   }
 
-  override fun getExportedCustomDirectEventTypeConstants(): Map<String, Any>? {
-    val export = super.getExportedCustomDirectEventTypeConstants()?.toMutableMap()
-      ?: mutableMapOf<String, Any>()
-
-    export[TopErrorEvent.EVENT_NAME] = mapOf("registrationName" to "onError")
-    export[TopFinishedEvent.EVENT_NAME] = mapOf("registrationName" to "onFinished")
-    export[TopLoadedEvent.EVENT_NAME] = mapOf("registrationName" to "onLoaded")
-
-    return export
+//  override fun getExportedCustomBubblingEventTypeConstants(): Map<String, Any>? {
+//    val export = super.getExportedCustomDirectEventTypeConstants()?.toMutableMap()
+//      ?: mutableMapOf<String, Any>()
+//
+//    export[TopErrorEvent.EVENT_NAME] = mapOf("registrationName" to "onError")
+//    export[TopFinishedEvent.EVENT_NAME] = mapOf("registrationName" to "onFinished")
+//    export[TopLoadedEvent.EVENT_NAME] = mapOf("registrationName" to "onLoaded")
+//    export[TopFrameEvent.EVENT_NAME] = mapOf("registrationName" to "onFrameChanged")
+//    export[TopPercentageEvent.EVENT_NAME] = mapOf("registrationName" to "onPercentageChanged")
+//
+//    return export
+//  }
+  override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any>? {
+  val map = MapBuilder.builder<String, Any>()
+    .put("topError", MapBuilder.of("registrationName", "onError"))
+    .put("topFinished", MapBuilder.of("registrationName", "onFinished"))
+    .put("topLoaded", MapBuilder.of("registrationName", "onLoaded"))
+    .put("topFrameChanged", MapBuilder.of("registrationName", "onFrameChanged"))
+    .put("topPercentageChanged", MapBuilder.of("registrationName", "onPercentageChanged"))
+    .build()
+  return map
   }
 
   override fun pauseAnimation(view: RNSvgaPlayer?) {

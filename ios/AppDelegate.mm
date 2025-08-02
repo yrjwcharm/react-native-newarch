@@ -2,7 +2,7 @@
 #import "RCTSvgaPlayer.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTBridge+Private.h>
-
+#import "RNPDFPdfView.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -14,13 +14,14 @@
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
-//- (NSDictionary<NSString *,Class<RCTComponentViewProtocol>> *)thirdPartyFabricComponents
-//{
-//  
-//  NSMutableDictionary * dictionary = [super thirdPartyFabricComponents].mutableCopy;
-//  dictionary[@"RNSvgaPlayer"] = [RCTSvgaPlayer class];
-//  return dictionary;
-//}
+- (NSDictionary<NSString *,Class<RCTComponentViewProtocol>> *)thirdPartyFabricComponents
+{
+  
+  NSMutableDictionary * dictionary = [super thirdPartyFabricComponents].mutableCopy;
+  dictionary[@"RNSvgaPlayer"] = [RCTSvgaPlayer class];
+  dictionary[@"RNPDFPdfView"] = [RNPDFPdfView class];
+  return dictionary;
+}
 
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

@@ -12,7 +12,7 @@ import {
   RNSvgaPlayer,
   SvgaPlayerRef,
   SvgaErrorEvent,
-} from 'rn-newarch-svga-player';
+} from 'react-native-svga-player';
 const App = () => {
   const svgaPlayerRef = useRef<SvgaPlayerRef>(null);
   //播放网络资源
