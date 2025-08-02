@@ -24,6 +24,7 @@ using namespace facebook::react;
     BOOL _clearsAfterStop;
     SVGAVideoEntity * _currentVideoItem;
 }
+
 // Event emitter convenience method
 - (const RNSvgaPlayerEventEmitter &)eventEmitter
 {
@@ -35,6 +36,11 @@ using namespace facebook::react;
     return concreteComponentDescriptorProvider<RNSvgaPlayerComponentDescriptor>();
 }
 
+
+Class<RCTComponentViewProtocol> RNSvgaPlayerCls(void)
+{
+   return RCTSvgaPlayer.class;
+}
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if (self = [super initWithFrame:frame]) {
@@ -548,8 +554,3 @@ self.eventEmitter.onFinished(result);
 
 @end
 
-
-Class<RCTComponentViewProtocol> RNSvgaPlayerCls(void)
-{
-   return RCTSvgaPlayer.class;
-}
